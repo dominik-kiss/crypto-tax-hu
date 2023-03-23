@@ -15,8 +15,8 @@ export default class Transaction {
     }
 
     get financialResult() {
-        // "income" or "expense" multiplied by "currency"
-        return (this.income * this.dailyExchangeRate);
+        // Get the result of the transaction (negative if expense, positive if income)
+        return (this.expense == 0) ? (this.income * this.dailyExchangeRate):(this.expense * this.dailyExchangeRate * -1);
     }
 
     get isTaxExemptTransaction() {
@@ -24,5 +24,3 @@ export default class Transaction {
         return (this.financialResult <= (this.#minimumWage2022 * 0.1));
     }
 }
-
-let rowOne = new Transaction(1, "2023.03.23", 0, 57, "EUR");
