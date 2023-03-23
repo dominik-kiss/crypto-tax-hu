@@ -2,27 +2,28 @@
 
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+// const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 
 const isProduction = process.env.NODE_ENV == "production";
-
-const stylesHandler = MiniCssExtractPlugin.loader;
 
 const config = {
   entry: "./src/index.js",
   output: {
-    path: path.resolve(__dirname, "dist"),
+    filename: "[name].bundle.js",
+    path: path.resolve(__dirname, 'dist'),
+    clean: true,
   },
   devServer: {
     open: true,
     host: "localhost",
   },
   plugins: [
+    // new BundleAnalyzerPlugin(),
     new HtmlWebpackPlugin({
-      template: "index.html",
+      title: 'Shape Tracker',
+      template: './src/index.html',
+      inject: 'body'
     }),
-
-    new MiniCssExtractPlugin(),
 
     // Add your plugins here
     // Learn more about plugins from https://webpack.js.org/configuration/plugins/
@@ -34,8 +35,15 @@ const config = {
         loader: "babel-loader",
       },
       {
-        test: /\.css$/i,
-        use: [stylesHandler, "css-loader"],
+        test: /\.s[ac]ss$/i,
+        use: [
+          // Creates `style` nodes from JS strings
+          "style-loader",
+          // Translates CSS into CommonJS
+          "css-loader",
+          // Compiles Sass to CSS
+          "sass-loader",
+        ],
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
@@ -46,6 +54,7 @@ const config = {
       // Learn more about loaders from https://webpack.js.org/loaders/
     ],
   },
+  performance: { hints: false }
 };
 
 module.exports = () => {
