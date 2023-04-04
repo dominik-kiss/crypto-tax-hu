@@ -4,23 +4,27 @@ export default class Transaction {
     constructor(id, date, expense, income, currency) {
         this.id = id,
         this.date = date,
-        this.expense = expense,
-        this.income = income,
-        this.currency = currency
+        this.expense = expense * this.dailyExchangeRate;
+        this.income = income * this.dailyExchangeRate;
+        this.currency = currency,
+        this.financialResult = (this.income > 0) ? this.income : (0 - this.expense);
     }
 
     get dailyExchangeRate() {
         // Get the daily exchange rate for "this.currency":HUF from the MNB API
-        return 350;
+        return 1;
     }
 
-    get financialResult() {
-        // Get the result of the transaction (negative if expense, positive if income)
-        return (this.expense == 0) ? (this.income * this.dailyExchangeRate):(this.expense * this.dailyExchangeRate * -1);
+    get lowerThanMinWage() {
+        return (this.income <= (this.#minimumWage2022 * 0.1));
     }
 
-    get isTaxExemptTransaction() {
-        // Boolean, true if "financialResult" does not exceed 10% of the minimum wage
-        return (this.financialResult <= (this.#minimumWage2022 * 0.1));
+    get isIncomeTransaction() {
+        return (this.income > 0);
     }
+
+    get isExpenseTransaction() {
+        return !isIncomeTransaction;
+    }
+
 }
