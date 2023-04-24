@@ -2,16 +2,49 @@
 
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const webpack = require('webpack');
 // const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 
 const isProduction = process.env.NODE_ENV == "production";
 
-const config = {
+const config = {  
   entry: "./src/index.js",
   output: {
     filename: "[name].bundle.js",
     path: path.resolve(__dirname, 'dist'),
     clean: true,
+  },
+  resolve: {
+    fallback: {
+        "fs": false,
+        "stream": false,
+        "crypto": false,
+        "path": false,
+        "util": false,
+        "buffer": false,
+        "assert": false,
+        "constants": false,
+        "http": false,
+        "https": false,
+        "os": false,
+        "url": false,
+        "zlib": false,
+        "net": false,
+        "tls": false,
+        "child_process": false,
+        "string_decoder": false,
+        "process": false,
+        "events": false,
+        "vm": false,
+        "tty": false,
+        "readline": false,
+        "domain": false,
+        "punycode": false,
+        "dgram": false,
+        "dns": false,
+        "timers": false,
+        "querystring": false,
+    },
   },
   devServer: {
     open: true,
@@ -24,10 +57,11 @@ const config = {
       template: './src/index.html',
       inject: 'body'
     }),
-
-    // Add your plugins here
-    // Learn more about plugins from https://webpack.js.org/configuration/plugins/
+    new webpack.DefinePlugin({ "global.GENTLY": false })
   ],
+  node: {
+    __dirname: true,
+  },
   module: {
     rules: [
       {
@@ -43,13 +77,10 @@ const config = {
         }
       },
       {
-        test: /\.s[ac]ss$/i,
+        test: /\.scss$/,
         use: [
-          // Creates `style` nodes from JS strings
           "style-loader",
-          // Translates CSS into CommonJS
           "css-loader",
-          // Compiles Sass to CSS
           "sass-loader",
         ],
       },
