@@ -1,5 +1,6 @@
 import calculateFromInput from "./calc.js";
 import Transaction from "./transaction.js";
+import "./style.scss";
 
 // Input will be a number of Transaction objects
 let tra1 = new Transaction(1, "2022.03.23", 0, 10000, "HUF"); // Tax exempt income transaction
