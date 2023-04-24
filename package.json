@@ -1,15 +1,12 @@
 {
-  "name": "my-webpack-project",
+  "name": "crypto-tax-hu",
   "version": "1.0.0",
-  "description": "My webpack project",
+  "description": "Crypto tax calculator for Hungary",
   "main": "index.js",
-  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --mode=production --node-env=production",
+    "build": "webpack",
     "start": "webpack serve",
-    "build:dev": "webpack --mode=development",
-    "build:prod": "webpack --mode=production --node-env=production",
     "watch": "webpack --watch",
     "serve": "webpack serve"
   },
